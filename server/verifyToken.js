@@ -1,14 +1,22 @@
-import jwt from "jsonwebtoken";
-import { handleError } from "./error.js";
+// Importing required modules.
+import jwt from 'jsonwebtoken';
+import { handleError } from './error.js';
 
+// Middleware function to verify token.
 export const verifyToken = (req, res, next) => {
-  const token = req.cookies.access_token;
+	// Extracting token from cookies.
+	const token = req.cookies.access_token;
 
-  if (!token) return next(handleError(401, "You are not authenticated"));
+	// If token is not found.
+	if (!token) return next(handleError(401, 'You are not authenticated'));
 
-  jwt.verify(token, process.env.JWT, (err, user) => {
-    if (err) return next(createError(403, "Token is invalid"));
-    req.user = user;
-    next();
-  });
+	// Verifying the token.
+	jwt.verify(token, process.env.JWT, (err, user) => {
+		// If token is invalid.
+		if (err) return next(createError(403, 'Token is invalid'));
+
+		// If token is valid, save the user object to the request object.
+		req.user = user;
+		next();
+	});
 };
