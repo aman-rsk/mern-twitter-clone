@@ -2,6 +2,7 @@
 import Tweet from '../models/Tweet.js';
 import { handleError } from '../error.js';
 import User from '../models/User.js';
+import multer from 'multer';
 
 // Creating a new tweet.
 export const createTweet = async (req, res, next) => {
